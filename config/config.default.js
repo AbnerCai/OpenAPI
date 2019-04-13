@@ -18,6 +18,18 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = [];
 
+  config.mongoose = {
+    client: {
+      url: 'mongodb://127.0.0.1/open_api',
+      options: {
+        auth: {
+          user: "api",
+          password: "api"
+        }
+      },
+    },
+  };
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
