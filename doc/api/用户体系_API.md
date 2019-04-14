@@ -33,9 +33,10 @@
 ```json
 {
     "code": 0,
+    "msg": "注册成功！",
     "data": {
-        "_id": "5cb1dfa7b4d7fd434483d17d",
-        "email": "test@qq.com"
+        "email": "594113869@qq.com",
+        "registerTime": "2019-04-14T12:01:13.236Z"
     }
 }
 ```
