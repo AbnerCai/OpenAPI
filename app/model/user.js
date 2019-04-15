@@ -8,6 +8,7 @@ module.exports = app => {
         password: { type: String  },
         salt: { type: String },
         token: { type: String },
+        status: { type: Number},
         registerTime: { type: Date }
     });
 

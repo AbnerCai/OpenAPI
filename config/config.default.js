@@ -37,9 +37,19 @@ module.exports = appInfo => {
     },
   };
 
+  config.redis = {
+    client: {
+      port: 6379,          // Redis port
+      host: '127.0.0.1',   // Redis host
+      password: '',
+      db: 2,
+    },
+  };
+
   // add your user config here
   const userConfig = {
-    // myAppName: 'egg',
+    hostname: "http://127.0.0.1:7001/",
+    activatePath: "v1/user/activate"
   };
 
   return {
