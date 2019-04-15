@@ -7,8 +7,6 @@ const crypto = require('crypto');
 
 const moment = require('moment');
 
-const send_mail = require('../../service/send_mail'); // 发送邮件
-
 // 成功
 const SUCCESS = 0;
 // 参数错误
@@ -83,7 +81,7 @@ class UserController extends Controller {
             // 判断邮箱是否激活，未激活再次发送激活邮件
             if (tmp[0].status && tmp[0].status == 2) {
                 // 发送激活邮件
-                sendActivationEmail(app, user.email);
+                sendActivationEmail(ctx, app, user.email);
                 result.code = ERROR_EMAIL_NO_ACTIVATION;
                 result.msg = "该邮箱未激活，已重新发送激活邮件，请查收。";
             }
@@ -97,7 +95,7 @@ class UserController extends Controller {
 
         if (tmp) {
             // 发送激活邮件
-            sendActivationEmail(app, user.email);
+            sendActivationEmail(ctx, app, user.email);
 
             delete user.password;
             delete user.salt;
@@ -174,7 +172,7 @@ class UserController extends Controller {
 /**
  * 发送激活邮件
  * */
-function sendActivationEmail(app, email) {
+function sendActivationEmail(ctx, app, email) {
     var activationCode = uuid.v1().toString().replace(/-/g, "");
     var codeCotent = {
         activationCode: activationCode,
@@ -190,8 +188,7 @@ function sendActivationEmail(app, email) {
     const activateUrl = app.config.hostname + app.config.activatePath +
         "?email=" + email + "&activationCode=" + activationCode;
 
-    // 发送注册邮件
-    send_mail.sendActivationUrl(activateUrl, (err, info)=>{
+    ctx.service.email.sendActivationUrl(email, activateUrl, (err, info)=>{
         if (err) {
             console.log("邮件发送失败");
             return;

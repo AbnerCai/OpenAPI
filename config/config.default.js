@@ -12,6 +12,8 @@ module.exports = appInfo => {
    **/
   const config = {};
 
+  config.env = "prod";
+
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1554899271591_2961';
 
@@ -49,7 +51,15 @@ module.exports = appInfo => {
   // add your user config here
   const userConfig = {
     hostname: "http://127.0.0.1:7001/",
-    activatePath: "v1/user/activate"
+    activatePath: "v1/user/activate",
+    email: {
+      host: "smtp.139.com",
+      port: 465,
+      auth: {
+        user: 'xxx@139.com',
+        pass: 'xxx'
+      }
+    }
   };
 
   return {
