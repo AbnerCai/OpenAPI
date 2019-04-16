@@ -13,7 +13,7 @@ class EmailService extends Service {
      * 发送文章.
      * */
     async sendActivationUrl(to, url, callback) {
-        const { app } = this;
+        const { app, ctx } = this;
         /**
          * 定义邮件信息.
          * */
@@ -37,12 +37,12 @@ class EmailService extends Service {
 
         transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
-                logger.info(err);
+                ctx.logger.error(err);
                 callback(err);
                 return;
             }
-            logger.info(info);
-            logger.info(date.getTime() + ' 邮件发送成功');
+            ctx.logger.info(info);
+            ctx.logger.info(date.getTime() + ' 邮件发送成功');
             callback(null, info);
         });
     }

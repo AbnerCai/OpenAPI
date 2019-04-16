@@ -11,6 +11,9 @@ const moment = require('moment');
 const SUCCESS = 0;
 // 参数错误
 const ERROR_PARAM = 20140;
+
+// 该邮箱未注册
+const ERROR_EMAIL_UNREGISTER = 20125;
 // 该邮箱已被注册
 const ERROR_EMAIL = 20126;
 // 该邮箱未激活
@@ -53,7 +56,8 @@ class UserController extends Controller {
         var user = {
             email: req.email,
             password: req.password,
-            salt: uuid.v1().toString().replace(/-/g, ""),
+            salt: uuid.v4().toString().replace(/-/g, ""),
+            token: uuid.v1().toString().replace(/-/g, ""),
             status: 2, // 未激活
             registerTime: new Date()
         };
@@ -165,6 +169,65 @@ class UserController extends Controller {
             result.msg = "激活失败！";
         }
 
+        ctx.body = result;
+    }
+
+    /**
+     * 登录
+     * */
+    async login() {
+        const { app, ctx } = this;
+        const req = ctx.request.body;
+
+        var result = {};
+
+        var user = {
+            email: req.email,
+            password: req.password,
+        };
+
+        // TODO: 校验邮箱的合法性和密码的合法性
+        if (!user.email || !user.password) {
+            result.code = ERROR_PARAM;
+            result.msg = "参数错误，请检查参数！";
+            ctx.body = result;
+            return;
+        }
+
+        // 根据邮箱查找用户.
+        var tmp = await ctx.model.User.find({ email: user.email });
+        console.log(tmp);
+
+        if (tmp && tmp.length > 0) {
+            // 判断邮箱是否激活，未激活登录失败
+            if (tmp[0].status && tmp[0].status == 2) {
+                // 发送激活邮件
+                sendActivationEmail(ctx, app, user.email);
+                result.code = ERROR_EMAIL_NO_ACTIVATION;
+                result.msg = "该邮箱未激活，已重新发送激活邮件，请查收。";
+                ctx.body = result;
+                return;
+            }
+            if (tmp[0].password && tmp[0].salt) {
+                var md5 = crypto.createHash('md5');
+                // 存储密码加盐
+                var password = md5.update(user.email + user.password + tmp[0].salt).digest('hex');
+                if (password === tmp[0].password) {
+                    result.code = SUCCESS;
+                    result.msg = "登录成功！";
+                    result.data = {
+                      email: user.email,
+                      token:  tmp[0].token
+                    };
+                    ctx.body = result;
+                    return;
+                }
+            }
+
+        }
+
+        result.code = ERROR_EMAIL_UNREGISTER;
+        result.msg = "当前邮箱未注册！";
         ctx.body = result;
     }
 }

@@ -9,4 +9,5 @@ module.exports = app => {
 
   router.post('/v1/user/register', controller.v1.user.register);
   router.get('/v1/user/activate', controller.v1.user.activate);
+  router.post('/v1/user/login', controller.v1.user.login);
 };
