@@ -26,6 +26,8 @@ class EmailService extends Service {
             }
         });
 
+        ctx.logger.info(transporter);
+
         let mailOptions = {
             from: app.config.email.auth.user, // 发送者
             to: to, // 接受者,可以同时发送多个,以逗号隔开
