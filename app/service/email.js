@@ -26,8 +26,6 @@ class EmailService extends Service {
             }
         });
 
-        ctx.logger.info(transporter);
-
         let mailOptions = {
             from: app.config.email.auth.user, // 发送者
             to: to, // 接受者,可以同时发送多个,以逗号隔开
@@ -36,6 +34,8 @@ class EmailService extends Service {
             html: '<p>欢迎使用OpenAPI，请点击以下链接进行激活<\p>' +
                 '<a href="'+ url +'">' + url + '</a>'
         };
+
+        ctx.logger.info(mailOptions);
 
         transporter.sendMail(mailOptions, function (err, info) {
             if (err) {
