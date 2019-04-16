@@ -31,8 +31,8 @@ class EmailService extends Service {
             to: to, // 接受者,可以同时发送多个,以逗号隔开
             subject: '激活邮箱账号验证', // 标题
             //text: 'Hello world', // 文本
-            html: '<p>欢迎使用OpenAPI，请点击以下链接进行激活<\p>' +
-                '<a href="'+ url +'">' + url + '</a>'
+            html: '<p>欢迎使用OpenAPI，请点击以下链接进行激活<\p>'
+                // '<a href="'+ url +'">' + url + '</a>'
         };
 
         ctx.logger.info(mailOptions);
