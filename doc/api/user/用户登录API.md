@@ -18,8 +18,8 @@
 
 ```json
 {
-	"email": "test@qq.com",
-	"passworld": "md5"
+    "email": "test@qq.com",
+    "passworld": "md5"
 }
 ```
 
