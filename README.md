@@ -9,7 +9,7 @@
     - [MongoDB]()
 
 - [用户体系](./doc/用户体系.md)
-    - [用户注册API](./doc/api/user/用户注册API.md
+    - [用户注册API](./doc/api/user/用户注册API.md)
     - [邮箱验证API](./doc/api/user/邮箱验证API.md)
     - [用户登录API](./doc/api/user/用户登录API.md)
 
