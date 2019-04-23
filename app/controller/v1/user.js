@@ -197,11 +197,13 @@ class UserController extends Controller {
                 // 存储密码加盐
                 var password = md5.update(user.email + user.password + tmp[0].salt).digest('hex');
                 if (password === tmp[0].password) {
+                    // 生成token
+                    const token = await ctx.service.user.generateToken(app, tmp[0]);
                     result.code = CONST.SUCCESS;
                     result.msg = "登录成功！";
                     result.data = {
                       email: user.email,
-                      token:  tmp[0].token
+                      token: token
                     };
                     ctx.body = result;
                     return;

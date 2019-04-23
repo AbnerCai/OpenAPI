@@ -17,6 +17,8 @@ module.exports = {
     ERROR_ACTIVATION_CODE_FAILURE: 20131,
     // 无效激活码
     ERROR_ACTIVATION_CODE_INVALID: 20132,
+    // token 无效
+    ERROR_TOKEN: 20135,
     // MongoDB 操作失败
     ERROR_MONGODB: 20161
 };

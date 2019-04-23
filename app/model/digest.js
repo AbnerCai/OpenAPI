@@ -11,7 +11,8 @@ module.exports = app => {
         readQuantity: { type: Number },
         createTime: { type: Date },
         updateTime: { type: Date },
-        user_id: {type: Schema.Types.ObjectId}
+        isDelete: { type: Boolean },
+        userId: {type: Schema.Types.ObjectId}
     });
 
     return mongoose.model('Digest', DigestSchema);
