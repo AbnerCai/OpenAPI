@@ -113,7 +113,51 @@ class DigestsController extends Controller {
      * 删除
      * */
     async destroy() {
+        const { app, ctx } = this;
 
+        var result = {};
+
+        const id = ctx.params.id;
+
+        if (!id) {
+            result.code = CONST.ERROR_PARAM;
+            result.msg = "id 不能为空！";
+            ctx.body = result;
+            return;
+        }
+
+        const query = this.ctx.query;
+        const token = query.token;
+        if (!token) {
+            result.code = CONST.ERROR_PARAM;
+            result.msg = "token 不能为空！";
+            ctx.body = result;
+            return;
+        }
+
+        // 校验 token, 关联 user
+        const userId = await ctx.service.user.verifyToken(app, token);
+        if (!userId) {
+            result.code = CONST.ERROR_TOKEN;
+            result.msg = "token 无效！";
+            ctx.body = result;
+            return;
+        }
+
+        try {
+            var tmpResult = await ctx.model.Digest.update({userId: userId, _id: id}, {isDelete: true});
+            if (tmpResult && tmpResult.nModified == 1) {
+                result.code = CONST.SUCCESS;
+                result.msg = "删除成功！";
+            } else {
+                result.code = CONST.ERROR_MONGODB;
+                result.msg = "删除失败！id 不存在或已删除";
+            }
+        } catch (e) {
+            result.code = CONST.ERROR_MONGODB;
+            result.msg = "删除失败！id 错误";
+        }
+        ctx.body = result;
     }
 }
 
