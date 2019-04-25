@@ -207,9 +207,13 @@ class UserController extends Controller {
                     };
                     ctx.body = result;
                     return;
+                } else {
+                    result.code = CONST.ERROR_PARAM;
+                    result.msg = "登录失败！";
+                    ctx.body = result;
+                    return;
                 }
             }
-
         }
 
         result.code = CONST.ERROR_EMAIL_UNREGISTER;
