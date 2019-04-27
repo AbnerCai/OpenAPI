@@ -58,7 +58,7 @@ class DigestsController extends Controller {
     }
 
     /**
-     * 修改
+     * TODO：修改
      * */
     async update() {
 
@@ -101,7 +101,7 @@ class DigestsController extends Controller {
     }
 
     /**
-     * 查询单个
+     * TODO：查询单个
      * */
     async show() {
         const { app, ctx } = this;
