@@ -61,13 +61,13 @@ class GarbageController extends Controller {
 
     const tmpResult = await ctx.service.garbage.createGarbage(ctx, data);
 
-    if (tmpResult) {
+    if (tmpResult.name) {
       result.code = CODE.SUCCESS;
       result.msg = "新增成功！";
       result.data = tmpResult;
     } else {
       result.code = CODE.ERROR_MONGODB;
-      result.msg = "新增失败！";
+      result.msg = `新增失败！${tmpResult.msg}`;
     }
     ctx.body = result;
   }

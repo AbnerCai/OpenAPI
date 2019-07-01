@@ -39,15 +39,34 @@ class GarbageService extends Service {
    * 新建垃圾条目.
    * */
   async createGarbage(ctx, data) {
+    let result = {};
+
+    // 查询垃圾条目是否存在.
+    var tmpResult = await ctx.model.Garbage.find({name: data.name}, {isDelete: 0});
+    if (tmpResult && tmpResult.length > 0) {
+      return { msg: '条目已存在' };
+    }
+
+    // 查询类别.
+    var tmpResult = await ctx.model.GarbageType.find({ name: data.type }, {});
+    ctx.logger.info(`垃圾类别: ${tmpResult}`);
+
+    if (!tmpResult || tmpResult.length <= 0) {
+      return { msg: '该类别不存在' };
+    }
 
     const garbage = {
       name: data.name,
       createTime: moment().format('YYYY-MM-DD HH:mm:ss'),
-      garbageType: data.type
+      garbageType: tmpResult[0]['_id']
     };
 
     var tmpResult = await ctx.model.Garbage.create(garbage);
-    return tmpResult;
+    ctx.logger.info(`垃圾条目: ${tmpResult}`);
+    if (tmpResult) {
+      return tmpResult;
+    }
+    return {};
   }
 
   /**
