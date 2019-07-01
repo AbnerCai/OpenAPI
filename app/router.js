@@ -12,4 +12,6 @@ module.exports = app => {
   router.post('/v1/user/login', controller.v1.user.login);
 
   router.resources('digests', '/v1/digests', controller.v1.digests);
+
+  router.resources('garbage', '/v1/garbage', controller.v1.garbage);
 };
