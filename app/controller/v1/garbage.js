@@ -25,7 +25,7 @@ class GarbageController extends Controller {
 
     const tmpResult = await ctx.service.garbage.search(ctx, word);
     ctx.logger.info(tmpResult);
-    if (tmpResult) {
+    if (tmpResult.name) {
       result.code = CODE.SUCCESS;
       result.msg = "查询成功！";
       result.data = tmpResult;
